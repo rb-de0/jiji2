@@ -36,6 +36,7 @@ module Jiji::Model::Trading
     field :name,          type: String
     field :created_at,    type: Time
     field :memo,          type: String
+    field :spread,        type: Float, default: 0.0
 
     field :start_time,       type: Time
     field :end_time,         type: Time
@@ -83,7 +84,8 @@ module Jiji::Model::Trading
         id:         _id,
         name:       name,
         memo:       memo,
-        created_at: created_at
+        created_at: created_at,
+        spread:     spread
       }
       insert_broker_setting_to_hash(hash)
       insert_status_to_hash(hash)
@@ -252,6 +254,7 @@ module Jiji::Model::Trading
     BackTest.new do |b|
       b.name          = hash['name']
       b.memo          = hash['memo']
+      b.spread        = hash['spread']
 
       load_broker_setting_from_hash(b, hash)
     end

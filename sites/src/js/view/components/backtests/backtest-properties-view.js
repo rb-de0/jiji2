@@ -97,6 +97,7 @@ export default class BacktestPropertiesView extends AbstractComponent {
 
   createItems() {
     const backtest = this.state.selectedBacktest;
+    const spreadValue = backtest.spread == 0 ? "未設定" : backtest.spread
     return [
       this.createItem("名前",    backtest.name, "name"),
       this.createItem("登録日時", backtest.formatedCreatedAt, "created-at"),
@@ -105,6 +106,7 @@ export default class BacktestPropertiesView extends AbstractComponent {
       this.createItem("初期資金", "￥ " + backtest.formatedBalance, "balance"),
       this.createItem("通貨ペア", backtest.pairNames.join(" "), "pairs"),
       this.createItem("レート間隔", backtest.tickInterval, "tickInterval"),
+      this.createItem("スプレッド",    spreadValue, "spread"),
       this.createItem("メモ",    <pre>{backtest.memo}</pre>, "memo")
     ];
   }

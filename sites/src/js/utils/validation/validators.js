@@ -24,6 +24,9 @@ export default {
       noHankakuKana : true,
       maxLength: 2000
     }),
+    spread: builder.build({
+      notNull: true
+    }),
     pairNames: builder.build({
       notEmpty: true,
       size: 5

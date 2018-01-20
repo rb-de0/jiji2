@@ -12,8 +12,8 @@ import TextField from "material-ui/TextField"
 import RaisedButton from "material-ui/RaisedButton"
 
 const keys = new Set([
-  "name", "memo", "balance",
-  "nameError", "memoError", "balanceError",
+  "name", "memo", "balance", "spread",
+  "nameError", "memoError", "balanceError", "spreadError",
   "isSaving"
 ]);
 
@@ -109,6 +109,16 @@ export default class BacktestBuilder extends AbstractComponent {
                 }} />
             </div>
           </div>
+          <div className="item">
+            <div className="label">スプレッド</div>
+            <div className="input">
+              <TextField
+                ref="spread"
+                hintText="スプレッド"
+                defaultValue={this.state.spread}
+                errorText={this.state.spreadError} />
+            </div>
+          </div>
         </div>
         <div  className="inputs">
           <div className="item">
@@ -143,7 +153,8 @@ export default class BacktestBuilder extends AbstractComponent {
     const builder = this.model();
     builder.name = this.refs.name.getValue();
     builder.memo = this.refs.memo.getValue();
-    builder.balance   = this.refs.balance.getValue();
+    builder.balance  = this.refs.balance.getValue();
+    builder.spread = this.refs.spread.getValue();
 
     if (!builder.validate()) return;
 
