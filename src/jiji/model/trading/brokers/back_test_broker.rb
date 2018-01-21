@@ -72,7 +72,8 @@ module Jiji::Model::Trading::Brokers
         backtest:    backtest,
         pairs:       resolve_required_pairs(pairs, modules),
         orders:      orders,
-        positions:   positions
+        positions:   positions,
+        spread:      backtest.spread
       }
     end
 

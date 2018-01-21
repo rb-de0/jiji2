@@ -57,6 +57,7 @@ export default class BacktestBuilder extends Observable {
       balance:        1000000,
       name:           "",
       memo:           "",
+      spread:         0,
       startTime:      startTime,
       endTime:        endTime,
       tickIntervalId:  "fifteen_seconds"
@@ -100,6 +101,8 @@ export default class BacktestBuilder extends Observable {
         {field: "メモ"}, (error) => this.memoError = error ),
       ValidationUtils.validate(Validators.backtest.balance, this.balance,
         {field: "初期資金"}, (error) => this.balanceError = error ),
+      ValidationUtils.validate(Validators.backtest.spread, this.spread,
+        {field: "スプレッド"}, (error) => this.spreadError = error ),
       this.agentSettingBuilder.validate(),
       this.pairSelectorModel.validate(),
       this.rangeSelectorModel.validate()
@@ -143,6 +146,19 @@ export default class BacktestBuilder extends Observable {
   }
   set balanceError(error) {
     this.setProperty("balanceError", error);
+  }
+
+  get spread() {
+    return this.backtest.spread;
+  }
+  set spread(spread) {
+    this.backtest.spread = spread;
+  }
+  get spreadError() {
+    return this.getProperty("spreadError");
+  }
+  set spreadError(error) {
+    this.setProperty("spreadError", error);
   }
 
   get tickIntervalId() {

@@ -11,12 +11,7 @@ var base = {
       ga:                __dirname + '/../lib/ga.js'
     }
   },
-  plugins:  [
-    new webpack.IgnorePlugin(/vertx/),
-    new webpack.ProvidePlugin({
-      createjs: "easeljs"
-    })
-  ],
+  plugins:  [],
   module: {
     loaders: [{
       test:     /\.js$/,
@@ -42,20 +37,29 @@ var base = {
 };
 
 function createConfig( root, mainFile, env, options) {
+
   var config = merge( merge( base, {
     entry: '.' + root + '/' + mainFile,
     output: {
       filename: mainFile
     },
     resolve: {
-      root: __dirname + root
+      modules: [__dirname + root, __dirname + "/../node_modules"]
     }
   }), options || {});
-  config.plugins.push(new webpack.DefinePlugin({
-    'process.env':{
-      'NODE_ENV': JSON.stringify(env)
-    }
-  }));
+
+  config.plugins = [
+    new webpack.IgnorePlugin(/vertx/),
+    new webpack.ProvidePlugin({
+      createjs: "easeljs"
+    }),
+    new webpack.DefinePlugin({
+      'process.env':{
+        'NODE_ENV': JSON.stringify(env)
+      }
+    })
+  ];
+
   return config;
 }
 

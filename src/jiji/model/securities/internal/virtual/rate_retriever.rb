@@ -8,13 +8,14 @@ module Jiji::Model::Securities::Internal::Virtual
     include Jiji::Model::Trading
 
     def init_rate_retriever_state(start_time, end_time,
-      pairs, interval_id = :fifteen_seconds)
+      pairs, interval_id = :fifteen_seconds, spread)
       check_period(start_time, end_time)
       @current_time = @start_time = start_time
       @end_time    = end_time
       @interval_id = interval_id
       @buffer      = []
       @pairs       = pairs
+      @spread      = spread
     end
 
     def retrieve_pairs
@@ -23,7 +24,18 @@ module Jiji::Model::Securities::Internal::Virtual
 
     def retrieve_current_tick
       fill_buffer if @buffer.empty?
-      @current_tick = @buffer.shift
+      raw_tick= @buffer.shift
+
+      if @spread.nil? || @spread == 0
+        @current_tick = raw_tick
+      else
+        values = {}
+        raw_tick.each { |key, value|
+          values[key] = Tick::Value.new(value.bid, value.bid + @spread)
+        }
+        @current_tick =  Tick.new(values, raw_tick.timestamp)
+      end
+      
       update_orders(@current_tick)
       update_positions(@current_tick)
 

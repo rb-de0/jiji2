@@ -120,6 +120,7 @@ describe("BacktestBuiler", () => {
     expect( target.nameError ).toBe(null);
     expect( target.memoError ).toBe(null);
     expect( target.balanceError ).toBe(null);
+    expect( target.spreadError ).toBe(null);
     expect( target.agentSettingBuilder.agentSettingError ).toBe(null);
     expect( target.rangeSelectorModel.startTimeError ).toBe(null);
     expect( target.rangeSelectorModel.endTimeError ).toBe(null);
@@ -136,7 +137,8 @@ describe("BacktestBuiler", () => {
       ],
       pairNames:      ["EURJPY", "USDJPY"],
       balance:        1000000,
-      tickIntervalId: "fifteen_seconds"
+      tickIntervalId: "fifteen_seconds",
+      spread:         0
     });
 
 
@@ -150,12 +152,14 @@ describe("BacktestBuiler", () => {
     target.updateSelectedAgent("テスト", "ccc", {c:"cc"});
     target.pairSelectorModel.pairNames = ["EURJPY", "USDJPY", "EURUSD", "AUDJPY", "CADJPY"];
     target.balance   = 2000000;
+    target.spread   = 0.004;
     target.tickIntervalId = "one_hour";
 
     expect( target.validate() ).toBe(true);
     expect( target.nameError ).toBe(null);
     expect( target.memoError ).toBe(null);
     expect( target.balanceError ).toBe(null);
+    expect( target.spreadError ).toBe(null);
     expect( target.agentSettingBuilder.agentSettingError ).toBe(null);
     expect( target.rangeSelectorModel.startTimeError ).toBe(null);
     expect( target.rangeSelectorModel.endTimeError ).toBe(null);
@@ -173,7 +177,8 @@ describe("BacktestBuiler", () => {
       ],
       pairNames:     ["EURJPY", "USDJPY", "EURUSD", "AUDJPY", "CADJPY"],
       balance:       2000000,
-      tickIntervalId: "one_hour"
+      tickIntervalId: "one_hour",
+      spread:        0.004
     });
   });
 
