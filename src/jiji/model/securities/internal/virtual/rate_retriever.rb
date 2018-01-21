@@ -26,7 +26,7 @@ module Jiji::Model::Securities::Internal::Virtual
       fill_buffer if @buffer.empty?
       raw_tick= @buffer.shift
 
-      if @spread == 0
+      if @spread.nil? || @spread == 0
         @current_tick = raw_tick
       else
         values = {}
